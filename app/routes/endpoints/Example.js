@@ -3,9 +3,9 @@ class Example {
     this.server = server;
   }
 
-  // localhost/example returns "foobar"
+  // localhost/example returns a json
   get() {
-      return "foobar"
+    return { foo: "bar" };
   }
 }
 
