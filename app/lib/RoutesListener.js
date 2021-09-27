@@ -1,4 +1,4 @@
-const fs = require('fs');
+const fs = require("fs");
 
 class RoutesListener {
   constructor(server) {
@@ -10,20 +10,15 @@ class RoutesListener {
     this.loadAllMethodsFromRouteFiles(this.classes, this.server);
   }
 
-  addRouteListener(route, method, obj) {
-    this.addListener(route, method, obj);
-  }
-
   getClasses() {
     var filesList = fs.readdirSync("./routes/endpoints");
 
-    var classList = []
-    var test = "TOTO"
+    var classList = [];
     filesList.forEach((element, i) => {
       element = element.substring(0, element.length - 3);
       classList.push(element);
-    })
-    return classList
+    });
+    return classList;
   }
 
   addListener(route, methode, obj) {
@@ -35,7 +30,7 @@ class RoutesListener {
   loadAllMethodsFromRouteFiles() {
     var classList = [];
     this.classes.forEach((fileName, i) => {
-      const classImport = require("./endpoints/" + fileName);
+      const classImport = require("../routes/endpoints/" + fileName);
       var classObj = new classImport(this.server);
       this.addMethodsFromClass(fileName, classObj);
     });
@@ -44,21 +39,23 @@ class RoutesListener {
   addMethodsFromClass(route, classObj) {
     let httpMethods = this.getAllFuncsFromObject(classObj);
     httpMethods.forEach((element) => {
-      this.addRouteListener("/" + route, element, classObj);
+      this.addListener("/" + route, element, classObj);
     });
   }
 
   getAllFuncsFromObject(objToCheck) {
-      var propertyNames = Object.getOwnPropertyNames(Object.getPrototypeOf(objToCheck));
-      var avoidValues = ["constructor", "start"];
+    var propertyNames = Object.getOwnPropertyNames(
+      Object.getPrototypeOf(objToCheck)
+    );
+    var avoidValues = ["constructor", "start"];
 
-      avoidValues.forEach(function(element, i) {
-          var index = propertyNames.indexOf(element)
-          if (propertyNames.includes(element)) {
-              propertyNames.splice(index, 1);
-          }
-      })
-      return propertyNames
+    avoidValues.forEach(function (element, i) {
+      var index = propertyNames.indexOf(element);
+      if (propertyNames.includes(element)) {
+        propertyNames.splice(index, 1);
+      }
+    });
+    return propertyNames;
   }
 }
 
