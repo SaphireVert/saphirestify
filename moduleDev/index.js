@@ -1,10 +1,14 @@
 var assert = require("assert-plus");
 
 
-function startApi(config, routePath, currentPath) {
-  assert.object(config, "config");
+function startApi(routePath, currentPath, config) {
+  assert.optionalObject(config, "config");
   assert.string(routePath, "routePath");
   assert.string(currentPath, "currentPath");
+
+  if (typeof config === "undefined"){
+    config = require(`${currentPath}/config.js`)
+  }
 
   /**
    * Module Dependencies
@@ -28,7 +32,7 @@ function startApi(config, routePath, currentPath) {
   server.use(restifyPlugins.queryParser({ mapParams: true }));
   server.use(restifyPlugins.fullResponse());
   server.use(restify.plugins.queryParser());
-  
+
   /**
    * Start Server, Connect to DB & Require Routes
    */
@@ -50,9 +54,9 @@ function startApi(config, routePath, currentPath) {
  * 
  * @public
  * @function startApi - Starts the api
- * @param {String} [config] - Specify theconfig for the api server
  * @param {String} [routePath] - Specify the path of the route folder
  * @param {String} [currentPath] - Specify the path of the current directory
+ * @param {String} [config] - Specify the config for the api server
  * 
  */
 

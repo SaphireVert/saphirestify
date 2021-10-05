@@ -3,7 +3,7 @@ const fs = require("fs");
 class RoutesListener {
   constructor(server, routePath, modulePath) {
     this.server = server;
-    this.routePath = "routes";
+    this.routePath = routePath;
     this.modulePath = modulePath;
   }
 
