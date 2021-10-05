@@ -6,14 +6,14 @@ API Restity is a RestifyJs based library that simply allows you to use filenames
 ### NPM:
 Simply install npm module by typing 
 ```
-npm install api_restify
+npm install saphirestify
 ```
 
 And then set up files:
 
 index.js:
 ```
-const apiExample = require('api_restify');
+const apiExample = require('saphirestify');
 apiExample.start('./routes', __dirname);
 ```
 
