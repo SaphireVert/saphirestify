@@ -1,8 +1,10 @@
 const fs = require("fs");
 
 class RoutesListener {
-  constructor(server) {
+  constructor(server, routePath, modulePath) {
     this.server = server;
+    this.routePath = routePath;
+    this.modulePath = modulePath;
   }
 
   async start() {
@@ -13,7 +15,7 @@ class RoutesListener {
     var classList = [];
     let filesName = this.getRouteFilesName();
     filesName.forEach((fileName, i) => {
-      const classImport = require("../routes/endpoints/" + fileName);
+      const classImport = require(`${this.modulePath}/${this.routePath}/${fileName}`);
       var classObj = new classImport(this.server);
       this.addHttpMethods(fileName, classObj);
     });
@@ -34,8 +36,7 @@ class RoutesListener {
   }
 
   getRouteFilesName() {
-    var filesList = fs.readdirSync("./routes/endpoints");
-
+    var filesList = fs.readdirSync(`${this.modulePath}/${this.routePath}`);
     var classList = [];
     filesList.forEach((element, i) => {
       element = element.substring(0, element.length - 3);
