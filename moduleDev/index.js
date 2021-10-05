@@ -1,7 +1,7 @@
 var assert = require("assert-plus");
 
 
-function startApi(routePath, currentPath, config) {
+function start(routePath, currentPath, config) {
   assert.optionalObject(config, "config");
   assert.string(routePath, "routePath");
   assert.string(currentPath, "currentPath");
@@ -53,11 +53,11 @@ function startApi(routePath, currentPath, config) {
  * An  object that can listen to all routes
  * 
  * @public
- * @function startApi - Starts the api
+ * @function start - Starts the api
  * @param {String} [routePath] - Specify the path of the route folder
  * @param {String} [currentPath] - Specify the path of the current directory
  * @param {String} [config] - Specify the config for the api server
  * 
  */
 
-module.exports.startApi = startApi;
+module.exports.start = start;
