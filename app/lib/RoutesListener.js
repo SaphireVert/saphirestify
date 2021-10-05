@@ -3,14 +3,37 @@ const fs = require("fs");
 class RoutesListener {
   constructor(server) {
     this.server = server;
-    this.classes = this.getClasses();
   }
 
   async start() {
-    this.loadAllMethodsFromRouteFiles(this.classes, this.server);
+    this.loadRoutes();
   }
 
-  getClasses() {
+  loadRoutes() {
+    var classList = [];
+    let filesName = this.getRouteFilesName();
+    filesName.forEach((fileName, i) => {
+      const classImport = require("../routes/endpoints/" + fileName);
+      var classObj = new classImport(this.server);
+      this.addHttpMethods(fileName, classObj);
+    });
+  }
+
+  addHttpMethods(route, classObj) {
+    let httpMethods = this.getMethodsFromObject(classObj);
+    httpMethods.forEach((element) => {
+      this.addListener("/" + route, element, classObj);
+    });
+  }
+
+  addListener(route, methode, obj) {
+    this.server[methode](route.toLowerCase(), function (req, res, next) {
+      res.send(obj[methode](req));
+      return next();
+    });
+  }
+
+  getRouteFilesName() {
     var filesList = fs.readdirSync("./routes/endpoints");
 
     var classList = [];
@@ -21,29 +44,7 @@ class RoutesListener {
     return classList;
   }
 
-  addListener(route, methode, obj) {
-    this.server[methode](route.toLowerCase(), function (req, res, next) {
-      res.send(obj[methode](), next);
-    });
-  }
-
-  loadAllMethodsFromRouteFiles() {
-    var classList = [];
-    this.classes.forEach((fileName, i) => {
-      const classImport = require("../routes/endpoints/" + fileName);
-      var classObj = new classImport(this.server);
-      this.addMethodsFromClass(fileName, classObj);
-    });
-  }
-
-  addMethodsFromClass(route, classObj) {
-    let httpMethods = this.getAllFuncsFromObject(classObj);
-    httpMethods.forEach((element) => {
-      this.addListener("/" + route, element, classObj);
-    });
-  }
-
-  getAllFuncsFromObject(objToCheck) {
+  getMethodsFromObject(objToCheck) {
     var propertyNames = Object.getOwnPropertyNames(
       Object.getPrototypeOf(objToCheck)
     );

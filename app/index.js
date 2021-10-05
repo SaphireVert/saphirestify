@@ -32,3 +32,5 @@
 const RoutesListener = require("./lib/RoutesListener");
 var api = new RoutesListener(server);
 api.start();
+
+server.use(restify.plugins.queryParser());
