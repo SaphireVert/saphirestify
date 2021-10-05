@@ -29,6 +29,8 @@
     console.log('%s listening at %s', server.name, server.url);
  });
 
-const RoutesListener = require("./routes/RoutesListener");
+const RoutesListener = require("./lib/RoutesListener");
 var api = new RoutesListener(server);
 api.start();
+
+server.use(restify.plugins.queryParser());
