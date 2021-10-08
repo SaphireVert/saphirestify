@@ -1,6 +1,6 @@
 {
   "name": "saphirestify",
-  "version": "0.1.1",
+  "version": "0.1.2",
   "description": "API Restity is a RestifyJs based library that simply allows you to use filenames as route name.",
   "main": "index.js",
   "scripts": {
