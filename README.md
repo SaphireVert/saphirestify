@@ -35,7 +35,7 @@ class Example {
     this.server = server;
   }
 
-  Returns a simple json
+  // Returns a simple json
   get(req) {
     console.log("GET request");
     return {'foo': 'bar'};
@@ -49,8 +49,3 @@ module.exports = Example;
 Then run `npm start`
 
 Connect to `localhost:8081/example` and enjoy ! 
-
-
-
-
-
