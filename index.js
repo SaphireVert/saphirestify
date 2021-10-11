@@ -1,13 +1,23 @@
 var assert = require("assert-plus");
+const RoutesListener = require("./lib/RoutesListener");
+var path = require("path");
 
-
-function start(routePath, currentPath, config) {
+/**
+ * 
+ * An  object that can listen to all routes
+ * 
+ * @public
+ * @function start - Starts the api
+ * @param {String} [routePath] - Specify the path of the route folder
+ * @param {String} [config] - Specify the config for the api server
+ * 
+ */
+function start(routePath, config) {
   assert.optionalObject(config, "config");
   assert.string(routePath, "routePath");
-  assert.string(currentPath, "currentPath");
 
   if (typeof config === "undefined"){
-    config = require(`${currentPath}/config.js`)
+    config = require(`${path.resolve()}/config.js`);
   }
 
   /**
@@ -43,21 +53,29 @@ function start(routePath, currentPath, config) {
   /**
    * Launching module
    */
-  const RoutesListener = require("./lib/RoutesListener");
-  var routeListeners = new RoutesListener(server, routePath, currentPath);
+  var routeListeners = new RoutesListener(server, routePath);
   routeListeners.start();
 }
 
+
 /**
  * 
- * An  object that can listen to all routes
+ * If you already have a server instance, this will only check a specified route folder using the server object.
  * 
  * @public
- * @function start - Starts the api
- * @param {String} [routePath] - Specify the path of the route folder
- * @param {String} [currentPath] - Specify the path of the current directory
- * @param {String} [config] - Specify the config for the api server
+ * @function hookup - Parse folder that contains route files
+ * @param {Object} [options] - Specify the options
+ * @param {String} [options.routesFolder] - Specify the path of the current directory
+ * @param {Object} [options.server] - Specify the api server object
  * 
  */
+function hookup(options) {
+  var routeListeners = new RoutesListener(
+    options.server,
+    options.routesFolder,
+  );
+  routeListeners.start();
+}
 
 module.exports.start = start;
+module.exports.hookup = hookup;
