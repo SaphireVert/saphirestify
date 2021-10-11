@@ -2,9 +2,9 @@
 
 API Restity is a RestifyJs based library that simply allows you to use filenames as route name.
 
-## Get started: 
+## Get started:
 ### NPM:
-Simply install npm module by typing 
+Simply install npm module by typing
 ```
 npm install saphirestify
 ```
@@ -21,7 +21,7 @@ config.js:
 ```
 module.exports = {
   port: process.env.PORT || 8081,
-  server: { 
+  server: {
     name: 'API'
   },
 };
@@ -31,13 +31,9 @@ module.exports = {
 routes/Example.js:
 ```
 class Example {
-  constructor(server) {
-    this.server = server;
-  }
-
-  Returns a simple json
+  // Returns a simple json
   get(req) {
-    console.log("GET request");
+    console.log("Caught GET request");
     return {'foo': 'bar'};
   }
 }
@@ -46,11 +42,10 @@ module.exports = Example;
 ```
 > Note The route path must only have route files. Otherwise the server could not start.
 
-Then run `npm start`
+Then run `node index.js`
 
-Connect to `localhost:8081/example` and enjoy ! 
+Connect to `localhost:8081/example` and enjoy !
 
-
-
-
-
+## Documentation
+Saphirestify is just an extra layer that allows you to hook up the name of your files as routes names.
+To learn how to use the restify, please refer to the [official restify documentation](http://restify.com/docs/home/)
