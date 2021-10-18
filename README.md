@@ -3,7 +3,7 @@
 API Restity is a RestifyJs based library that simply allows you to use filenames as route name.
 
 ## Get started:
-### NPM:
+
 Simply install npm module by typing
 ```
 npm install saphirestify
@@ -14,18 +14,12 @@ And then set up files:
 index.js:
 ```
 const apiExample = require('saphirestify');
-apiExample.start('./routes', __dirname);
-```
 
-config.js:
-```
-module.exports = {
-  port: process.env.PORT || 8081,
-  server: {
-    name: 'API'
-  },
-};
-
+//Route hookup
+apiExample.hookup({
+    routesFolder: "./routes",
+    server: server
+});
 ```
 
 routes/Example.js:
@@ -46,6 +40,13 @@ Then run `node index.js`
 
 Connect to `localhost:8081/example` and enjoy !
 
+To illustrate how it works, here is a couple examples: 
+
+| Filename              | Route           |
+|-----------------------|-----------------|
+| `routes/index.js`     | `/`             |
+| `routes/example.js`   | `/example`      |
+| `routes/foo/bar.js`   | `/foo/bar`      |
 ## Documentation
-Saphirestify is just an extra layer that allows you to hook up the name of your files as routes names.
+Saphirestify is a transparent extra layer that allows you to hook up the name of your files as routes names while allowing you to use all the first places restify features.
 To learn how to use the restify, please refer to the [official restify documentation](http://restify.com/docs/home/)
