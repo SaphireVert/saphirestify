@@ -9,44 +9,45 @@ Simply install npm module by typing
 npm install saphirestify
 ```
 
-And then set up files:
-
-index.js:
 ```
-const apiExample = require('saphirestify');
+var saphirestify = require("saphirestify")
 
-//Route hookup
-apiExample.hookup({
-    routesFolder: "./routes",
-    server: server
-});
+var params = {
+  server: server,
+  routePath: "routes",
+  parseChar: "-",
+  argSeparator: "/",
+};
+
+saphirestify.hookup(params);
+
 ```
+### params
 
-routes/Example.js:
-```
-class Example {
-  // Returns a simple json
-  get(req) {
-    console.log("Caught GET request");
-    return {'foo': 'bar'};
-  }
-}
+`server`: restify server instance
 
-module.exports = Example;
-```
-> Note The route path must only have route files. Otherwise the server could not start.
+`routePath`: folder to look at 
 
-Then run `node index.js`
+`parseChar`: char used instead of colon in a route 
 
-Connect to `localhost:8081/example` and enjoy !
+`argSeparator` (optionnal): char used to separate route name from arguments 
 
-To illustrate how it works, here is a couple examples: 
+#### Examples 
 
-| Filename              | Route           |
-|-----------------------|-----------------|
-| `routes/index.js`     | `/`             |
-| `routes/example.js`   | `/example`      |
-| `routes/foo/bar.js`   | `/foo/bar`      |
+When parseChar is set to "-" : 
+| Filename                   | Route path                  |
+|----------------------------|-----------------------------|
+| `routes/foo-arg1/bar.js`   | `/foo:arg1/bar.js`          |
+
+When argSeparator is set to "/" : 
+| Filename                   | Route path                |
+|----------------------------|------------------------------|
+| `routes/foo-arg1/bar.js`   | `/foo/:arg1/bar.js`    |
+
+When argSeparator is set to "" : 
+| Filename                   | Route path                |
+|----------------------------|------------------------------|
+| `routes/foo-arg1/bar.js`   | `/foo:arg1/bar.js`     |
 ## Documentation
 Saphirestify is a transparent extra layer that allows you to hook up the name of your files as routes names while allowing you to use all the first places restify features.
 To learn how to use the restify, please refer to the [official restify documentation](http://restify.com/docs/home/)
