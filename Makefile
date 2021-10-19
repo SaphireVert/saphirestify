@@ -1,5 +1,5 @@
 up:
-	cd app; node index.js
+	node index.js
 
 dev:
-	cd app; nodemon index.js
+	nodemon index.js
