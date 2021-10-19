@@ -69,7 +69,7 @@ function start(routePath, config) {
  * @param {Object} [options.server] - Specify the api server object
  * 
  */
-function hookup(options) {
+function hookupD(options) {
   var routeListeners = new RoutesListener(
     options.server,
     options.routesFolder,
@@ -77,5 +77,15 @@ function hookup(options) {
   routeListeners.start();
 }
 
+function hookup(params) {
+  require("./lib/RouteParse")(
+    params.server,
+    params.relativeRouteFolder,
+    params.parseChar,
+    params.argSeparator
+  );
+}
+
 module.exports.start = start;
+module.exports.hookupD = hookupD;
 module.exports.hookup = hookup;
